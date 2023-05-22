@@ -1,36 +1,39 @@
-import pandas as pd
 import ast
-import xlsxwriter
+import pandas as pd
 
-df = pd.read_csv('file3.csv', nrows=10)
-emails_column = df.loc[:,"emails"]
-# print(emails_column)
-values = pd.Series(emails_column)
-email_list = values.tolist()
-# print(email_list)
+df = pd.read_csv('file3.csv')
+email_list = df['emails'].values.tolist()
 
-# Get the first value of the email list
-# print(ast.literal_eval(email_list[1])[0])
+no_of_emails = []
+for i in email_list:
+    if 'personal' in i:
+        no_of_emails.append(i.count('personal'))
+
+    else:
+        print('None')
+
+count = 0
+pmail = []
+for i,j in enumerate(email_list):
+    b = email_list[i].split(',')
+    for i,j in enumerate(b):
+        if 'personal' in j:
+            pmail.append(b[i-1].split(':')[1])
+            count += 1
+
+count = 0
+k = 0
+
+for i in no_of_emails:
+    email = ''
+    for j in range(0,i):
+        if i > 1:
+            email = email + pmail[k] + ', '
+        else:
+            email = email + pmail[k] 
+        k = k + 1
+    df.loc[df.index[count], 'Personal_Email'] = email
+    count += 1
 
 
-# for i in range(0, len(ast.literal_eval(email_list[1]))):
-#     if((ast.literal_eval(email_list[1])[i])['type'] == 'personal'):
-
-# Email list with the email type "personal"
-for emails in email_list:
-    for i in range(0, len(ast.literal_eval(emails))):
-        if(ast.literal_eval(emails)[i]['type']) == 'personal':
-            personal_emails = ast.literal_eval(emails)[i]
-            print(personal_emails)  
-
-            # workbook = xlsxwriter.Workbook('demo.xlsx')
-            # worksheet = workbook.add_worksheet()
-            # for value in personal_emails.values():
-
-            #     worksheet.write_string()
-            # workbook.close()
-
-
-            
-            # for customer in email_list.tolist():
-            #     print(personal_emails.values())[0]
+df.to_csv("new_file3")
