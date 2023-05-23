@@ -4,15 +4,17 @@ df = pd.read_csv('file3.csv')
 email_list = df['emails'].values.tolist()
 
 no_of_emails = []
+#  for every value 'i' in email list, counting values which has type: 'personal'
 for i in email_list:
-    if 'personal' in i:
+    if 'personal' in i:        
         no_of_emails.append(i.count('personal'))
-
     else:
         print('None')
 
 count = 0
 pmail = []
+# Split each row with commas, iterate through email list 
+# and appending it with type "personal"
 for i,j in enumerate(email_list):
     b = email_list[i].split(',')
     for i,j in enumerate(b):
@@ -25,6 +27,7 @@ k = 0
 
 for i in no_of_emails:
     email = ''
+    # Adding values in new list 
     for j in range(0,i):
         if i > 1:
             email = email + pmail[k] + ', '
